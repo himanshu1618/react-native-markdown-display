@@ -1,8 +1,8 @@
 // tslint:disable:max-classes-per-file
 import MarkdownIt from 'markdown-it';
 import Token from 'markdown-it/lib/token';
-import {ComponentType, ReactNode} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ComponentType, PropsWithChildren, ReactNode} from 'react';
+import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
 
 export function getUniqueID(): string;
 
@@ -93,13 +93,20 @@ export interface MarkdownProps {
   style?: StyleSheet.NamedStyles<any>;
   renderer?: AstRenderer;
   markdownit?: MarkdownIt;
+  markdownitOptions?: MarkdownIt.Options;
   mergeStyle?: boolean;
+  allowedImageHandlers?: Array<string>;
+  defaultImageHandler?: string;
   debugPrintTree?: boolean;
+  topLevelMaxExceededItem?: Text;
+  textcomponent?: Text;
+  textcomponentProps?: StyleProp<TextStyle>;
+  maxTopLevelChildren?: number;
   onLinkPress?: (url: string) => boolean;
   children: string;
 }
 
-type MarkdownStatic = ComponentType<MarkdownProps>;
+type MarkdownStatic = ComponentType<PropsWithChildren<MarkdownProps>>;
 export const Markdown: MarkdownStatic;
 export type Markdown = MarkdownStatic;
 export {MarkdownIt};

@@ -7,7 +7,7 @@ import hasParents from './util/hasParents';
 
 import textStyleProps from './data/textStyleProps';
 
-const renderRules = (Text) => ({
+const renderRules = (Text, textProps) => ({
   // when unknown elements are introduced, so it wont break
   unknown: (node, children, parent, styles) => null,
 
@@ -54,17 +54,17 @@ const renderRules = (Text) => ({
   ),
   // Emphasis
   strong: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.strong}>
+    <Text key={node.key} {...textProps} style={styles.strong}>
       {children}
     </Text>
   ),
   em: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.em}>
+    <Text key={node.key} {...textProps} style={styles.em}>
       {children}
     </Text>
   ),
   s: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.s}>
+    <Text key={node.key} {...textProps} style={styles.s}>
       {children}
     </Text>
   ),
@@ -115,6 +115,7 @@ const renderRules = (Text) => ({
           <Text
             style={[modifiedInheritedStylesObj, styles.bullet_list_icon]}
             accessible={false}
+            {...textProps}
           >
             {Platform.select({
               android: '\u2022',
@@ -143,7 +144,10 @@ const renderRules = (Text) => ({
 
       return (
         <View key={node.key} style={styles._VIEW_SAFE_list_item}>
-          <Text style={[modifiedInheritedStylesObj, styles.ordered_list_icon]}>
+          <Text
+            style={[modifiedInheritedStylesObj, styles.ordered_list_icon]}
+            {...textProps}
+          >
             {listItemNumber}
             {node.markup}
           </Text>
@@ -162,7 +166,11 @@ const renderRules = (Text) => ({
 
   // Code
   code_inline: (node, children, parent, styles, inheritedStyles = {}) => (
-    <Text key={node.key} style={[inheritedStyles, styles.code_inline]}>
+    <Text
+      key={node.key}
+      {...textProps}
+      style={[inheritedStyles, styles.code_inline]}
+    >
       {node.content}
     </Text>
   ),
@@ -178,7 +186,11 @@ const renderRules = (Text) => ({
     }
 
     return (
-      <Text key={node.key} style={[inheritedStyles, styles.code_block]}>
+      <Text
+        key={node.key}
+        {...textProps}
+        style={[inheritedStyles, styles.code_block]}
+      >
         {content}
       </Text>
     );
@@ -195,7 +207,11 @@ const renderRules = (Text) => ({
     }
 
     return (
-      <Text key={node.key} style={[inheritedStyles, styles.fence]}>
+      <Text
+        key={node.key}
+        {...textProps}
+        style={[inheritedStyles, styles.fence]}
+      >
         {content}
       </Text>
     );
@@ -239,7 +255,9 @@ const renderRules = (Text) => ({
       key={node.key}
       onPress={() => openUrl(node.attributes.href, onLinkPress)}
     >
-      <Text style={styles.link}>{children}</Text>
+      <Text style={styles.link} {...textProps}>
+        {children}
+      </Text>
     </Pressable>
   ),
   blocklink: (node, children, parent, styles, onLinkPress) => (
@@ -291,12 +309,12 @@ const renderRules = (Text) => ({
 
   // Text Output
   text: (node, children, parent, styles, inheritedStyles = {}) => (
-    <Text key={node.key} style={[inheritedStyles, styles.text]}>
+    <Text key={node.key} {...textProps} style={[inheritedStyles, styles.text]}>
       {node.content}
     </Text>
   ),
   textgroup: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.textgroup}>
+    <Text key={node.key} {...textProps} style={styles.textgroup}>
       {children}
     </Text>
   ),
@@ -306,12 +324,12 @@ const renderRules = (Text) => ({
     </View>
   ),
   hardbreak: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.hardbreak}>
+    <Text key={node.key} {...textProps} style={styles.hardbreak}>
       {'\n'}
     </Text>
   ),
   softbreak: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.softbreak}>
+    <Text key={node.key} {...textProps} style={styles.softbreak}>
       {'\n'}
     </Text>
   ),
@@ -322,12 +340,12 @@ const renderRules = (Text) => ({
     </View>
   ),
   inline: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.inline}>
+    <Text key={node.key} {...textProps} style={styles.inline}>
       {children}
     </Text>
   ),
   span: (node, children, parent, styles) => (
-    <Text key={node.key} style={styles.span}>
+    <Text key={node.key} {...textProps} style={styles.span}>
       {children}
     </Text>
   ),

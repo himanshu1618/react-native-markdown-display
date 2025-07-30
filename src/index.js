@@ -79,6 +79,7 @@ const getStyle = (mergeStyle, style) => {
 
 const getRenderer = (
   textcomponent,
+  textcomponentProps,
   renderer,
   rules,
   style,
@@ -116,7 +117,7 @@ const getRenderer = (
 
     return new AstRenderer(
       {
-        ...renderRules(textcomponent),
+        ...renderRules(textcomponent, textcomponentProps),
         ...(rules || {}),
       },
       useStyles,
@@ -134,13 +135,15 @@ const Markdown = React.memo(
   ({
     children,
     textcomponent = Text,
+    textcomponentProps,
     renderer = null,
     rules = null,
     style = null,
     mergeStyle = true,
-    markdownit = MarkdownIt({
+    markdownit,
+    markdownitOptions = {
       typographer: true,
-    }),
+    },
     onLinkPress,
     maxTopLevelChildren = null,
     topLevelMaxExceededItem = <Text key="dotdotdot">...</Text>,
@@ -154,10 +157,15 @@ const Markdown = React.memo(
     defaultImageHandler = 'https://',
     debugPrintTree = false,
   }) => {
+    if (!markdownit) {
+      markdownit = MarkdownIt(markdownitOptions);
+    }
+
     const momoizedRenderer = useMemo(
       () =>
         getRenderer(
           textcomponent,
+          textcomponentProps,
           renderer,
           rules,
           style,
@@ -171,6 +179,7 @@ const Markdown = React.memo(
         ),
       [
         textcomponent,
+        textcomponentProps,
         maxTopLevelChildren,
         onLinkPress,
         renderer,
@@ -195,6 +204,7 @@ Markdown.displayName = 'Markdown';
 Markdown.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.array]).isRequired,
   textcomponent: PropTypes.elementType,
+  textcomponentProps: PropTypes.any,
   renderer: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.instanceOf(AstRenderer),
@@ -228,6 +238,7 @@ Markdown.propTypes = {
     }
   },
   markdownit: PropTypes.instanceOf(MarkdownIt),
+  markdownitOptions: PropTypes.any,
   style: PropTypes.any,
   mergeStyle: PropTypes.bool,
   allowedImageHandlers: PropTypes.arrayOf(PropTypes.string),
