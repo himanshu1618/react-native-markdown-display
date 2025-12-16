@@ -1,8 +1,8 @@
 // tslint:disable:max-classes-per-file
 import MarkdownIt from 'markdown-it';
 import Token from 'markdown-it/lib/token';
-import {ComponentType, PropsWithChildren, ReactNode} from 'react';
-import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
+import React, {ComponentType, PropsWithChildren, ReactNode} from 'react';
+import {PressableProps, StyleSheet, Text, TextProps, View} from 'react-native';
 
 export function getUniqueID(): string;
 
@@ -99,8 +99,10 @@ export interface MarkdownProps {
   defaultImageHandler?: string;
   debugPrintTree?: boolean;
   topLevelMaxExceededItem?: Text;
-  textcomponent?: Text;
-  textcomponentProps?: StyleProp<TextStyle>;
+  textcomponent?: React.ElementType;
+  textcomponentProps?: TextProps;
+  pressablecomponent?: React.ElementType;
+  pressablecomponentProps?: PressableProps;
   maxTopLevelChildren?: number;
   onLinkPress?: (url: string) => boolean;
   children: string;

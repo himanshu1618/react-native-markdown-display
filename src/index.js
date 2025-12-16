@@ -4,7 +4,7 @@
  */
 
 import React, {useMemo} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import parser from './lib/parser';
 import getUniqueID from './lib/util/getUniqueID';
@@ -80,6 +80,8 @@ const getStyle = (mergeStyle, style) => {
 const getRenderer = (
   textcomponent,
   textcomponentProps,
+  pressablecomponent,
+  pressablecomponentProps,
   renderer,
   rules,
   style,
@@ -117,7 +119,12 @@ const getRenderer = (
 
     return new AstRenderer(
       {
-        ...renderRules(textcomponent, textcomponentProps),
+        ...renderRules({
+          Text: textcomponent,
+          textProps: textcomponentProps,
+          Pressable: pressablecomponent,
+          pressableProps: pressablecomponentProps,
+        }),
         ...(rules || {}),
       },
       useStyles,
@@ -136,6 +143,8 @@ const Markdown = React.memo(
     children,
     textcomponent = Text,
     textcomponentProps,
+    pressablecomponent = Pressable,
+    pressablecomponentProps,
     renderer = null,
     rules = null,
     style = null,
@@ -166,6 +175,8 @@ const Markdown = React.memo(
         getRenderer(
           textcomponent,
           textcomponentProps,
+          pressablecomponent,
+          pressablecomponentProps,
           renderer,
           rules,
           style,
@@ -180,6 +191,8 @@ const Markdown = React.memo(
       [
         textcomponent,
         textcomponentProps,
+        pressablecomponent,
+        pressablecomponentProps,
         maxTopLevelChildren,
         onLinkPress,
         renderer,
@@ -205,6 +218,8 @@ Markdown.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.array]).isRequired,
   textcomponent: PropTypes.elementType,
   textcomponentProps: PropTypes.any,
+  pressablecomponent: PropTypes.elementType,
+  pressablecomponentProps: PropTypes.any,
   renderer: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.instanceOf(AstRenderer),

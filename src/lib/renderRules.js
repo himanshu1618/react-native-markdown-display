@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Pressable, View, Platform, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, Platform, StyleSheet} from 'react-native';
 import FitImage from 'react-native-fit-image';
 
 import openUrl from './util/openUrl';
@@ -7,81 +7,81 @@ import hasParents from './util/hasParents';
 
 import textStyleProps from './data/textStyleProps';
 
-const renderRules = (Text, textProps) => ({
+const renderRules = ({Text, textProps, Pressable, pressableProps}) => ({
   // when unknown elements are introduced, so it wont break
   unknown: (node, children, parent, styles) => null,
 
   // The main container
   body: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_body}>
+    <View key={node.key} style={[styles._VIEW_SAFE_body]}>
       {children}
     </View>
   ),
   // Headings
   heading1: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_heading1}>
+    <View key={node.key} style={[styles._VIEW_SAFE_heading1]}>
       {children}
     </View>
   ),
   heading2: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_heading2}>
+    <View key={node.key} style={[styles._VIEW_SAFE_heading2]}>
       {children}
     </View>
   ),
   heading3: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_heading3}>
+    <View key={node.key} style={[styles._VIEW_SAFE_heading3]}>
       {children}
     </View>
   ),
   heading4: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_heading4}>
+    <View key={node.key} style={[styles._VIEW_SAFE_heading4]}>
       {children}
     </View>
   ),
   heading5: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_heading5}>
+    <View key={node.key} style={[styles._VIEW_SAFE_heading5]}>
       {children}
     </View>
   ),
   heading6: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_heading6}>
+    <View key={node.key} style={[styles._VIEW_SAFE_heading6]}>
       {children}
     </View>
   ),
   // Horizontal Rule
   hr: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_hr} />
+    <View key={node.key} style={[styles._VIEW_SAFE_hr]} />
   ),
   // Emphasis
   strong: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.strong}>
+    <Text key={node.key} {...textProps} style={[styles.strong]}>
       {children}
     </Text>
   ),
   em: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.em}>
+    <Text key={node.key} {...textProps} style={[styles.em]}>
       {children}
     </Text>
   ),
   s: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.s}>
+    <Text key={node.key} {...textProps} style={[styles.s]}>
       {children}
     </Text>
   ),
   // Blockquotes
   blockquote: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_blockquote}>
+    <View key={node.key} style={[styles._VIEW_SAFE_blockquote]}>
       {children}
     </View>
   ),
   // Lists
   bullet_list: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_bullet_list}>
+    <View key={node.key} style={[styles._VIEW_SAFE_bullet_list]}>
       {children}
     </View>
   ),
   ordered_list: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_ordered_list}>
+    <View key={node.key} style={[styles._VIEW_SAFE_ordered_list]}>
       {children}
     </View>
   ),
@@ -111,7 +111,7 @@ const renderRules = (Text, textProps) => ({
 
     if (hasParents(parent, 'bullet_list')) {
       return (
-        <View key={node.key} style={styles._VIEW_SAFE_list_item}>
+        <View key={node.key} style={[styles._VIEW_SAFE_list_item]}>
           <Text
             style={[modifiedInheritedStylesObj, styles.bullet_list_icon]}
             accessible={false}
@@ -123,7 +123,9 @@ const renderRules = (Text, textProps) => ({
               default: '\u2022',
             })}
           </Text>
-          <View style={styles._VIEW_SAFE_bullet_list_content}>{children}</View>
+          <View style={[styles._VIEW_SAFE_bullet_list_content]}>
+            {children}
+          </View>
         </View>
       );
     }
@@ -143,7 +145,7 @@ const renderRules = (Text, textProps) => ({
       }
 
       return (
-        <View key={node.key} style={styles._VIEW_SAFE_list_item}>
+        <View key={node.key} style={[styles._VIEW_SAFE_list_item]}>
           <Text
             style={[modifiedInheritedStylesObj, styles.ordered_list_icon]}
             {...textProps}
@@ -151,14 +153,16 @@ const renderRules = (Text, textProps) => ({
             {listItemNumber}
             {node.markup}
           </Text>
-          <View style={styles._VIEW_SAFE_ordered_list_content}>{children}</View>
+          <View style={[styles._VIEW_SAFE_ordered_list_content]}>
+            {children}
+          </View>
         </View>
       );
     }
 
     // we should not need this, but just in case
     return (
-      <View key={node.key} style={styles._VIEW_SAFE_list_item}>
+      <View key={node.key} style={[styles._VIEW_SAFE_list_item]}>
         {children}
       </View>
     );
@@ -219,32 +223,32 @@ const renderRules = (Text, textProps) => ({
 
   // Tables
   table: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_table}>
+    <View key={node.key} style={[styles._VIEW_SAFE_table]}>
       {children}
     </View>
   ),
   thead: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_thead}>
+    <View key={node.key} style={[styles._VIEW_SAFE_thead]}>
       {children}
     </View>
   ),
   tbody: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_tbody}>
+    <View key={node.key} style={[styles._VIEW_SAFE_tbody]}>
       {children}
     </View>
   ),
   th: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_th}>
+    <View key={node.key} style={[styles._VIEW_SAFE_th]}>
       {children}
     </View>
   ),
   tr: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_tr}>
+    <View key={node.key} style={[styles._VIEW_SAFE_tr]}>
       {children}
     </View>
   ),
   td: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_td}>
+    <View key={node.key} style={[styles._VIEW_SAFE_td]}>
       {children}
     </View>
   ),
@@ -254,8 +258,9 @@ const renderRules = (Text, textProps) => ({
       accessibilityRole={'link'}
       key={node.key}
       onPress={() => openUrl(node.attributes.href, onLinkPress)}
+      {...pressableProps}
     >
-      <Text style={styles.link} {...textProps}>
+      <Text style={[styles.link]} {...textProps}>
         {children}
       </Text>
     </Pressable>
@@ -265,9 +270,10 @@ const renderRules = (Text, textProps) => ({
       accessibilityRole={'link'}
       key={node.key}
       onPress={() => openUrl(node.attributes.href, onLinkPress)}
-      style={styles.blocklink}
+      style={[styles.blocklink]}
+      {...pressableProps}
     >
-      <View style={styles.image}>{children}</View>
+      <View style={[styles.image]}>{children}</View>
     </Pressable>
   ),
   // Images
@@ -314,38 +320,38 @@ const renderRules = (Text, textProps) => ({
     </Text>
   ),
   textgroup: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.textgroup}>
+    <Text key={node.key} {...textProps} style={[styles.textgroup]}>
       {children}
     </Text>
   ),
   paragraph: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_paragraph}>
+    <View key={node.key} style={[styles._VIEW_SAFE_paragraph]}>
       {children}
     </View>
   ),
   hardbreak: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.hardbreak}>
+    <Text key={node.key} {...textProps} style={[styles.hardbreak]}>
       {'\n'}
     </Text>
   ),
   softbreak: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.softbreak}>
+    <Text key={node.key} {...textProps} style={[styles.softbreak]}>
       {'\n'}
     </Text>
   ),
   // Believe these are never used but retained for completeness
   pre: (node, children, parent, styles) => (
-    <View key={node.key} style={styles._VIEW_SAFE_pre}>
+    <View key={node.key} style={[styles._VIEW_SAFE_pre]}>
       {children}
     </View>
   ),
   inline: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.inline}>
+    <Text key={node.key} {...textProps} style={[styles.inline]}>
       {children}
     </Text>
   ),
   span: (node, children, parent, styles) => (
-    <Text key={node.key} {...textProps} style={styles.span}>
+    <Text key={node.key} {...textProps} style={[styles.span]}>
       {children}
     </Text>
   ),
